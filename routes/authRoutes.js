@@ -3,7 +3,7 @@ const passport = require('passport');
 module.exports = (app) => {
 
     app.get('/failed', (req, res) => res.send('You failed to login!'))
-    app.get('/success', (req, res) => res.send(`Welcome to trido ${req.user.displayName}`))
+    app.get('/dashboard', (req, res) => res.send(`Welcome to trido ${req.user.displayName}`))
 
     app.get('/auth/google',
         passport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -13,7 +13,7 @@ module.exports = (app) => {
             passport.authenticate('google'),
             (req, res) => {
                 // Successful authentication, redirect home.
-                res.redirect('/success');
+                res.redirect('/dashboard');
     });
 
     app.get('/api/logout', (req, res) => {
