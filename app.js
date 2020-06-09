@@ -26,12 +26,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+//ROUTES
 require('./routes/authRoutes')(app);
+app.use('/api/todos', require('./routes/todos'));
 
 
 const PORT = process.env.PORT || 3000
-console.log(PORT);
-console.log(process.env['GOOGLE_CLIENT_ID']);
-console.log(process.env['mongoURI']);
+
 
 app.listen(PORT)

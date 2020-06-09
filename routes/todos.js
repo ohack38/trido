@@ -26,18 +26,37 @@ router.get('/', requireLogin, async (req,res) => {
 // @description add a todos
 // @access private
 
-router.post('/', [requireLogin,[
-    check('title', 'Title is Required').not().isEmpty()
-]], async (req,res) => {
+//[requireLogin,[
+//    check('title', 'Title is Required').not().isEmpty()
+//]],
+
+router.post('/', async (req,res) => {
     const errors = validationResult(req);
     //returns array of errors
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array() });
     }
     // add todo
-    const { title } = req.body
+    const { title, description, time } =  req.body;
+
+    try {
+        const addTodo = new Todo({
+            title,
+            description,
+            time,
+            user: req.user.id
+        });
+        const todo = await addTodo.save();
+        res.json(todo);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('server error');
+    }
+
 })
 
 
 
 
+module.exports = router;
